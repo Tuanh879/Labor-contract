@@ -29,7 +29,7 @@ export default function App() {
       setCurrentUser(user);
       setError('');
     } else {
-      setError('User not found. Try hr@techtus.com, group1@techtus.com, lm1@techtus.com, or bod@techtus.com');
+      setError('User not found. Try tuanhnguyen8799@gmail.com, group1@techtus.com, lm1@techtus.com, or bod@techtus.com');
     }
   };
 
@@ -78,7 +78,7 @@ export default function App() {
           <div className="mt-8 pt-6 border-t border-slate-100">
             <p className="text-sm text-slate-500 mb-3 font-medium">Demo Accounts:</p>
             <div className="space-y-2 text-sm text-slate-600">
-              <div className="flex justify-between"><span className="font-medium">HR Admin:</span> hr@techtus.com</div>
+              <div className="flex justify-between"><span className="font-medium">HR Admin:</span> tuanhnguyen8799@gmail.com</div>
               <div className="flex justify-between"><span className="font-medium">Group (DLM):</span> group1@techtus.com</div>
               <div className="flex justify-between"><span className="font-medium">Line Manager:</span> lm1@techtus.com</div>
               <div className="flex justify-between"><span className="font-medium">BOD:</span> bod@techtus.com</div>

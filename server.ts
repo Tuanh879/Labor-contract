@@ -48,7 +48,7 @@ db.exec(`
 const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get() as { count: number };
 if (userCount.count === 0) {
   const insertUser = db.prepare('INSERT INTO users (id, name, email, role, department) VALUES (?, ?, ?, ?, ?)');
-  insertUser.run('hr1', 'HR Admin', 'hr@techtus.com', 'HR', 'Human Resources');
+  insertUser.run('hr1', 'HR Admin', 'tuanhnguyen8799@gmail.com', 'HR', 'Human Resources');
   insertUser.run('dlm1', 'Group 1 (DLM)', 'group1@techtus.com', 'DLM', 'Engineering');
   insertUser.run('lm1', 'Line Manager 1', 'lm1@techtus.com', 'LM', 'Engineering');
   insertUser.run('bod1', 'BOD', 'bod@techtus.com', 'BOD', 'Executive');
