@@ -24,7 +24,8 @@ export default function App() {
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    const cleanEmail = email.trim().toLowerCase();
+    const user = users.find(u => u.email.toLowerCase() === cleanEmail);
     if (user) {
       setCurrentUser(user);
       setError('');
