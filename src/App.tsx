@@ -15,7 +15,11 @@ export default function App() {
   useEffect(() => {
     fetch('/api/users')
       .then(res => res.json())
-      .then(data => setUsers(data));
+      .then(data => {
+        console.log('Fetched users:', data);
+        setUsers(data);
+      })
+      .catch(err => console.error('Error fetching users:', err));
   }, []);
 
   const handleLogin = (e: React.FormEvent) => {
