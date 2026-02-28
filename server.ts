@@ -48,10 +48,10 @@ db.exec(`
 const userCount = db.prepare('SELECT COUNT(*) as count FROM users').get() as { count: number };
 if (userCount.count === 0) {
   const insertUser = db.prepare('INSERT INTO users (id, name, email, role, department) VALUES (?, ?, ?, ?, ?)');
-  insertUser.run('hr1', 'HR Admin', 'hr@company.com', 'HR', 'Human Resources');
-  insertUser.run('dlm1', 'John DLM', 'dlm1@company.com', 'DLM', 'Engineering');
-  insertUser.run('lm1', 'Jane LM', 'lm1@company.com', 'LM', 'Engineering');
-  insertUser.run('bod1', 'Boss BOD', 'bod@company.com', 'BOD', 'Executive');
+  insertUser.run('hr1', 'HR Admin', 'hr@techtus.com', 'HR', 'Human Resources');
+  insertUser.run('dlm1', 'Group 1 (DLM)', 'group1@techtus.com', 'DLM', 'Engineering');
+  insertUser.run('lm1', 'Line Manager 1', 'lm1@techtus.com', 'LM', 'Engineering');
+  insertUser.run('bod1', 'BOD', 'bod@techtus.com', 'BOD', 'Executive');
 }
 
 // Seed some contracts if empty
@@ -67,26 +67,44 @@ if (contractCount.count === 0) {
   
   const now = new Date().toISOString();
   
-  insertContract.run(
-    'c1', '2023-10', 'Alice Smith', 'EMP001', 'Software Engineer', 'Engineering', 5000, 'Full-time',
-    '2023-10-01', '2024-09-30', 'dlm1', 'lm1', 'hr1', 'pending', 'pending', 'pending',
-    null, null, null, null
-  );
-  insertContract.run(
-    'c2', '2023-10', 'Bob Jones', 'EMP002', 'QA Engineer', 'Engineering', 4000, 'Contractor',
-    '2023-10-01', '2024-03-31', 'dlm1', 'lm1', 'hr1', 'approved', 'pending', 'pending',
-    'Looks good to me.', null, now, null
-  );
-  insertContract.run(
-    'c3', '2023-10', 'Charlie Brown', 'EMP003', 'DevOps Engineer', 'Engineering', 6000, 'Full-time',
-    '2023-10-01', '2024-09-30', 'dlm1', 'lm1', 'hr1', 'approved', 'approved', 'approved',
-    'Approved.', 'Agreed, approved.', now, now
-  );
-  insertContract.run(
-    'c4', '2023-10', 'Diana Prince', 'EMP004', 'Frontend Developer', 'Engineering', 5500, 'Full-time',
-    '2023-10-01', '2024-09-30', 'dlm1', 'lm1', 'hr1', 'rejected', 'pending', 'rejected',
-    'Salary is above budget for this role.', null, now, null
-  );
+  const contractsData = [
+    { id: 'c1', name: 'Nguyễn Minh Quân', pos: 'Backend Developer', level: 'Middle', loc: 'Đà Nẵng', group: 'A', line: '1', type: 'HĐLĐ', date: '05/01/2026' },
+    { id: 'c2', name: 'Trần Thu Hà', pos: 'QA Engineer', level: 'Junior', loc: 'Đà Nẵng', group: 'A', line: '1', type: 'HĐLĐ', date: '06/01/2026' },
+    { id: 'c3', name: 'Lê Hoàng Nam', pos: 'Frontend Developer', level: 'Senior', loc: 'Đà Nẵng', group: 'A', line: '2', type: 'HĐLĐ', date: '06/01/2026' },
+    { id: 'c4', name: 'Phạm Ngọc Anh', pos: 'HR Specialist', level: 'Middle', loc: 'HCM', group: 'C', line: '1', type: 'PLHĐLĐ', date: '08/01/2026' },
+    { id: 'c5', name: 'Vũ Đức Long', pos: 'DevOps Engineer', level: 'Senior', loc: 'HCM', group: 'B', line: '3', type: 'HĐLĐ', date: '09/01/2026' },
+    { id: 'c6', name: 'Bùi Thị Lan', pos: 'Accountant', level: 'Middle', loc: 'HCM', group: 'C', line: '1', type: 'HĐLĐ', date: '10/01/2026' },
+    { id: 'c7', name: 'Đỗ Thành Trung', pos: 'Backend Developer', level: 'Junior', loc: 'Đà Nẵng', group: 'A', line: '1', type: 'HĐLĐ', date: '12/01/2026' },
+    { id: 'c8', name: 'Nguyễn Thảo My', pos: 'IT Comtor', level: 'Junior', loc: 'Huế', group: 'B', line: '2', type: 'HĐLĐ', date: '12/01/2026' },
+    { id: 'c9', name: 'Phan Quốc Huy', pos: 'Project Manager', level: 'Senior', loc: 'HCM', group: 'B', line: '3', type: 'PLHĐLĐ', date: '15/01/2026' },
+    { id: 'c10', name: 'Lý Gia Hân', pos: 'UI/UX Designer', level: 'Middle', loc: 'Đà Nẵng', group: 'A', line: '2', type: 'HĐLĐ', date: '16/01/2026' },
+    { id: 'c11', name: 'Trịnh Công Sơn', pos: 'Mobile Developer', level: 'Middle', loc: 'Đà Nẵng', group: 'A', line: '3', type: 'HĐLĐ', date: '18/01/2026' },
+    { id: 'c12', name: 'Hoàng Thị Mai', pos: 'Recruiter', level: 'Junior', loc: 'HCM', group: 'C', line: '2', type: 'HĐLĐ', date: '20/01/2026' },
+    { id: 'c13', name: 'Nguyễn Thanh Tùng', pos: 'Data Engineer', level: 'Senior', loc: 'HCM', group: 'B', line: '3', type: 'PLHĐLĐ', date: '22/01/2026' },
+    { id: 'c14', name: 'Dương Khánh Linh', pos: 'Tester', level: 'Junior', loc: 'Huế', group: 'A', line: '1', type: 'HĐLĐ', date: '23/01/2026' },
+    { id: 'c15', name: 'Phạm Quốc Bảo', pos: 'Tech Lead', level: 'Senior', loc: 'HCM', group: 'B', line: '3', type: 'PLHĐLĐ', date: '25/01/2026' },
+    { id: 'c16', name: 'Võ Minh Khang', pos: 'Backend Developer', level: 'Middle', loc: 'Đà Nẵng', group: 'A', line: '2', type: 'HĐLĐ', date: '27/01/2026' },
+    { id: 'c17', name: 'Lê Thị Hồng', pos: 'HR Admin', level: 'Junior', loc: 'Huế', group: 'C', line: '1', type: 'HĐLĐ', date: '28/01/2026' },
+    { id: 'c18', name: 'Đặng Anh Tuấn', pos: 'Security Engineer', level: 'Senior', loc: 'HCM', group: 'B', line: '2', type: 'HĐLĐ', date: '30/01/2026' },
+    { id: 'c19', name: 'Phan Minh Châu', pos: 'Business Analyst', level: 'Middle', loc: 'HCM', group: 'B', line: '1', type: 'PLHĐLĐ', date: '03/02/2026' },
+    { id: 'c20', name: 'Trần Nhật Hoàng', pos: 'Frontend Developer', level: 'Junior', loc: 'Đà Nẵng', group: 'A', line: '3', type: 'HĐLĐ', date: '05/02/2026' },
+  ];
+
+  for (const c of contractsData) {
+    // Random salary between 1000 and 5000 for demo
+    const salary = Math.floor(Math.random() * 4000) + 1000;
+    
+    // Format date from DD/MM/YYYY to YYYY-MM-DD
+    const [day, month, year] = c.date.split('/');
+    const startDate = `${year}-${month}-${day}`;
+    const endDate = `${parseInt(year) + 1}-${month}-${day}`;
+    
+    insertContract.run(
+      c.id, '2026-01', c.name, `EMP${c.id.replace('c', '').padStart(3, '0')}`, c.pos, c.loc, salary, c.type,
+      startDate, endDate, 'dlm1', 'lm1', 'hr1', 'pending', 'pending', 'pending',
+      null, null, null, null
+    );
+  }
 }
 
 async function startServer() {
