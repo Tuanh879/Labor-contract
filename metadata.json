@@ -1,0 +1,5 @@
+{
+  "name": "HR Contract Approval",
+  "description": "Internal HR contract approval web application managing monthly employee contract workflows between HR, DLM, and LM.",
+  "requestFramePermissions": []
+}
