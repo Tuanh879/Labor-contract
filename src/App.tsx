@@ -9,11 +9,25 @@ export default function App() {
   const [users, setUsers] = useState<User[]>([]);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
 
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
+
   useEffect(() => {
     fetch('/api/users')
       .then(res => res.json())
       .then(data => setUsers(data));
   }, []);
+
+  const handleLogin = (e: React.FormEvent) => {
+    e.preventDefault();
+    const user = users.find(u => u.email.toLowerCase() === email.toLowerCase());
+    if (user) {
+      setCurrentUser(user);
+      setError('');
+    } else {
+      setError('User not found. Try hr@company.com, dlm1@company.com, lm1@company.com, or bod@company.com');
+    }
+  };
 
   if (!currentUser) {
     return (
@@ -24,25 +38,47 @@ export default function App() {
               <UserIcon className="w-8 h-8 text-blue-600" />
             </div>
             <h1 className="text-2xl font-semibold text-slate-900">HR Contract Approval</h1>
-            <p className="text-slate-500 mt-2">Select a role to continue</p>
+            <p className="text-slate-500 mt-2">Sign in to continue</p>
           </div>
           
-          <div className="space-y-3">
-            {users.map(user => (
-              <button
-                key={user.id}
-                onClick={() => setCurrentUser(user)}
-                className="w-full text-left px-4 py-3 rounded-xl border border-slate-200 hover:border-blue-500 hover:bg-blue-50 transition-colors flex items-center justify-between group"
-              >
-                <div>
-                  <div className="font-medium text-slate-900 group-hover:text-blue-700">{user.name}</div>
-                  <div className="text-sm text-slate-500">{user.email}</div>
-                </div>
-                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-slate-100 text-slate-800 group-hover:bg-blue-100 group-hover:text-blue-800">
-                  {user.role}
-                </span>
-              </button>
-            ))}
+          <form onSubmit={handleLogin} className="space-y-4">
+            <div>
+              <label htmlFor="email" className="block text-sm font-medium text-slate-700 mb-1">
+                Email Address
+              </label>
+              <input
+                type="email"
+                id="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Enter your email..."
+                className="w-full px-4 py-2 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                required
+              />
+            </div>
+            
+            {error && (
+              <div className="text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-100">
+                {error}
+              </div>
+            )}
+
+            <button
+              type="submit"
+              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2.5 rounded-xl transition-colors shadow-sm shadow-blue-600/20"
+            >
+              Sign In
+            </button>
+          </form>
+
+          <div className="mt-8 pt-6 border-t border-slate-100">
+            <p className="text-sm text-slate-500 mb-3 font-medium">Demo Accounts:</p>
+            <div className="space-y-2 text-sm text-slate-600">
+              <div className="flex justify-between"><span className="font-medium">HR Admin:</span> hr@company.com</div>
+              <div className="flex justify-between"><span className="font-medium">DLM:</span> dlm1@company.com</div>
+              <div className="flex justify-between"><span className="font-medium">Line Manager:</span> lm1@company.com</div>
+              <div className="flex justify-between"><span className="font-medium">BOD:</span> bod@company.com</div>
+            </div>
           </div>
         </div>
       </div>
